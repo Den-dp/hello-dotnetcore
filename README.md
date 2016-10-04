@@ -24,6 +24,45 @@ To create and run .NET Core project you need to:
     
 5. Open a web browser, and navigate to [http://localhost:5000/api/values](http://localhost:5000/api/values).
 
+## Swagger (Swashbuckle)
+
+1. Add dependencies in `project.json`
+    ```diff
+    {
+        dependencies: {
+            ...
+    +        "Swashbuckle.SwaggerGen": "6.0.0-beta902",
+    +        "Swashbuckle.SwaggerUi": "6.0.0-beta902"
+        },
+        ...
+    }
+    ```
+
+2. Bootstrap it in `Startup.cs`
+    ```diff
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // ...
+        services.AddMvc();
+    +   services.AddSwaggerGen();
+    }
+
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+    {
+        // ...
+        app.UseMvc();
+
+    +    // Enable middleware to serve generated Swagger as a JSON endpoint
+    +    app.UseSwagger();
+
+    +    // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+    +    app.UseSwaggerUi();
+    }
+    ```
+
+3. Navigate to [http://localhost:5000/swagger/ui/](http://localhost:5000/swagger/ui/)
+
+
 ## Docker
 
 As a nice bonus this app is ready to run within docker
@@ -34,4 +73,4 @@ As a nice bonus this app is ready to run within docker
     docker run -it --rm -p 5000:5000 --name api dotnetcore-api
     ```
 
-2. Open a web browser, and navigate to [http://localhost:5000/api/values](http://localhost:5000/api/values).
+2. Open a web browser, and navigate to [http://localhost:5000/swagger/ui/](http://localhost:5000/swagger/ui/).
